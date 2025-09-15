@@ -66,3 +66,12 @@ test/e2e/kratos.*.yml
 __debug_bin
 .debug.sqlite.db
 .last-run.json
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
