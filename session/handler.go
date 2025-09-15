@@ -10,9 +10,10 @@ import (
 	"strconv"
 	"time"
 
+	"go.opentelemetry.io/otel/trace"
+
 	"github.com/ory/kratos/x/nosurfx"
 	"github.com/ory/kratos/x/redir"
-	"go.opentelemetry.io/otel/trace"
 
 	"github.com/ory/kratos/selfservice/sessiontokenexchange"
 	"github.com/ory/x/otelx/semconv"
@@ -226,7 +227,15 @@ func (h *Handler) whoami(w http.ResponseWriter, r *http.Request) {
 		}
 
 		h.r.Audit().WithRequest(r).WithError(err).Info("No valid session found.")
-		h.r.Writer().WriteError(w, r, ErrNoSessionFound.WithWrap(err))
+
+		var wrappedErr *herodot.DefaultError
+		if inactiveSess := new(ErrSessionIsInactive); errors.As(err, &inactiveSess) {
+			wrappedErr = ErrSessionInactive.WithWrap(err)
+		} else {
+			wrappedErr = ErrNoSessionFound.WithWrap(err)
+		}
+
+		h.r.Writer().WriteError(w, r, wrappedErr)
 		return
 	}
 

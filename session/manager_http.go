@@ -269,7 +269,7 @@ func (s *ManagerHTTP) FetchFromRequest(ctx context.Context, r *http.Request) (_ 
 	trace.SpanFromContext(ctx).AddEvent(events.NewSessionChecked(ctx, se.ID, se.IdentityID))
 
 	if !se.IsActive() {
-		return nil, errors.WithStack(NewErrNoActiveSessionFound())
+		return nil, errors.WithStack(NewErrSessionIsInactive())
 	}
 
 	return se, nil
