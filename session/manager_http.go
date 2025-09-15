@@ -145,7 +145,7 @@ func (s *ManagerHTTP) FetchFromRequest(ctx context.Context, r *http.Request) (*S
 	}
 
 	if !se.IsActive() {
-		return nil, errors.WithStack(NewErrNoActiveSessionFound())
+		return nil, errors.WithStack(NewErrSessionIsInactive())
 	}
 
 	se.Identity = se.Identity.CopyWithoutCredentials()
