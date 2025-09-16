@@ -5,7 +5,18 @@
   env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = with pkgs; [ git docker docker-compose ];
+  packages = with pkgs; [ 
+    git 
+    docker 
+    docker-compose 
+    goreleaser 
+    glibc.dev
+    glibc_multi.dev 
+    musl.dev
+    gcc
+    binutils
+    pkg-config
+  ];
 
   # https://devenv.sh/languages/
   languages.go = {
