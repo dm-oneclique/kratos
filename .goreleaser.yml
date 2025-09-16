@@ -6,7 +6,7 @@ env:
   - GO111MODULE=on
 
 builds:
-  - id: alpine-cgo-amd64
+  - id: distroless-cgo-amd64
     flags:
       - "-tags=sqlite,hsm,json1"
     ldflags:
@@ -23,10 +23,10 @@ dockers:
   - image_templates:
       - "oryd/{{ .ProjectName }}:v{{ .Version }}-amd64"
     use: buildx
-    dockerfile: ".docker/Dockerfile-alpine"
+    dockerfile: ".docker/Dockerfile-distroless-static"
     goarch: amd64
     ids:
-      - alpine-cgo-amd64
+      - distroless-cgo-amd64
     build_flag_templates:
       - "--label=org.opencontainers.image.title={{ .ProjectName }}"
       - "--label=org.opencontainers.image.vendor=Ory"
