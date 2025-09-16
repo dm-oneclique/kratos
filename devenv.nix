@@ -11,8 +11,8 @@
     docker-compose 
     goreleaser 
     glibc.dev
-    glibc_multi.dev 
-    musl.dev
+#    glibc_multi.dev 
+#    musl.dev
     gcc
     binutils
     pkg-config
