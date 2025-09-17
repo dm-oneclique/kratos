@@ -24,6 +24,8 @@ type ErrNoActiveSessionFound struct {
 
 	// True when the request had no credentials in it.
 	credentialsMissing bool
+	// True when the token was once valid, but the session is not active anymore.
+	sessionExisted bool
 }
 
 // NewErrNoActiveSessionFound creates a new ErrNoActiveSessionFound
@@ -37,6 +39,12 @@ func NewErrNoActiveSessionFound() *ErrNoActiveSessionFound {
 func NewErrNoCredentialsForSession() *ErrNoActiveSessionFound {
 	e := NewErrNoActiveSessionFound()
 	e.credentialsMissing = true
+	return e
+}
+
+func NewErrSessionIsInactive() *ErrNoActiveSessionFound {
+	e := NewErrNoActiveSessionFound()
+	e.sessionExisted = true
 	return e
 }
 

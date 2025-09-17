@@ -221,7 +221,11 @@ func (h *Handler) whoami(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 		}
 
 		h.r.Audit().WithRequest(r).WithError(err).Info("No valid session found.")
-		h.r.Writer().WriteError(w, r, ErrNoSessionFound.WithWrap(err))
+		if e := new(ErrNoActiveSessionFound); errors.As(err, &e) && e.sessionExisted {
+			h.r.Writer().WriteError(w, r, ErrSessionIsInactive.WithWrap(err))
+		} else {
+			h.r.Writer().WriteError(w, r, ErrNoSessionFound.WithWrap(err))
+		}
 		return
 	}
 
