@@ -52,6 +52,16 @@ func (e *ErrNoActiveSessionFound) EnhanceJSONError() interface{} {
 	return e
 }
 
+// CredentialsMissing returns true if the request had no credentials in it.
+func (e *ErrNoActiveSessionFound) CredentialsMissing() bool {
+	return e.credentialsMissing
+}
+
+// SessionExisted returns true if the token was once valid, but the session is not active anymore.
+func (e *ErrNoActiveSessionFound) SessionExisted() bool {
+	return e.sessionExisted
+}
+
 // Is returned when an active session was found but the requested AAL is not satisfied.
 //
 // swagger:model errorAuthenticatorAssuranceLevelNotSatisfied
